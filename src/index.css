@@ -70,9 +70,8 @@ svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke
 .hero h1{font-family:'Nunito Sans',sans-serif;font-size:clamp(40px,5.5vw,64px);line-height:1.08;margin:0 0 22px;font-weight:700;color:var(--text)}
 .hero-lead{font-size:clamp(18px,2vw,21px);line-height:1.55;color:var(--text-muted);margin:0 0 18px;max-width:520px}
 .hero-credential{font-size:14px;color:var(--text-muted);margin-bottom:32px}
-.hero-illustration{margin:0}
-.hero-illustration svg{display:block;width:100%;height:auto;max-width:520px;border-radius:16px}
-.hero-illustration figcaption{font-size:11px;color:var(--text-muted);margin-top:8px}
+.hero-photo{margin:0;justify-self:end;width:100%;max-width:460px}
+.hero-photo img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:center 20%;border-radius:18px;box-shadow:0 20px 60px rgba(36,55,64,.12)}
 
 /* Services */
 .services{background:var(--surface)}
@@ -83,6 +82,29 @@ svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke
 .service-marker{position:absolute;left:20px;top:28px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--action);color:#fff;font-size:12px;font-weight:700}
 .service-card h3{font-family:'Nunito Sans',sans-serif;font-size:22px;margin:0 0 10px;font-weight:700}
 .service-card p{font-size:16px;line-height:1.55;color:var(--text-muted);margin:0}
+
+/* Office */
+.office{background:var(--bg)}
+.office-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(140px,18vw,240px);gap:16px;max-width:1100px;margin:0 auto}
+.office-card{margin:0;border-radius:14px;overflow:hidden;background:var(--surface)}
+.office-card img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .4s ease}
+.office-card:hover img{transform:scale(1.03)}
+.office-card-0{grid-column:span 2;grid-row:span 2}
+.office-card-1{grid-column:span 2}
+.office-card-2{grid-column:span 1;grid-row:span 2}
+.office-card-3{grid-column:span 1}
+.office-card-4{grid-column:span 1}
+.office-card-5{grid-column:span 2}
+
+/* Testimonial */
+.testimonial{background:var(--surface)}
+.testimonial-inner{max-width:720px;margin:0 auto;text-align:center}
+.testimonial-stars{display:flex;justify-content:center;gap:6px;color:#e6a23c;margin-bottom:20px}
+.testimonial-stars svg{fill:currentColor;stroke:none}
+.testimonial blockquote{font-family:'Nunito Sans',sans-serif;font-size:clamp(22px,3vw,30px);line-height:1.35;margin:0 0 18px;font-weight:600;color:var(--text)}
+.testimonial cite{display:block;font-size:15px;font-style:normal;color:var(--text-muted);margin-bottom:28px}
+.testimonial-photos{display:flex;justify-content:center;gap:12px}
+.testimonial-photos img{width:64px;height:64px;border-radius:50%;object-fit:cover;object-position:center;border:3px solid #fff;box-shadow:0 4px 14px rgba(36,55,64,.12)}
 
 /* About */
 .about{background:var(--bg)}
@@ -129,7 +151,13 @@ svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke
 
 @media(max-width:900px){
   .hero{grid-template-columns:1fr}
-  .hero-illustration svg{max-width:420px}
+  .hero-photo{justify-self:start;max-width:420px}
+  .office-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:160px}
+  .office-card-0{grid-column:span 2;grid-row:span 2}
+  .office-card-1{grid-column:span 2;grid-row:span 1}
+  .office-card-2{grid-column:span 1;grid-row:span 2}
+  .office-card-3,.office-card-4{grid-column:span 1;grid-row:span 1}
+  .office-card-5{grid-column:span 2;grid-row:span 1}
   .about-inner{grid-template-columns:1fr}
   .location-inner{grid-template-columns:1fr}
 }

@@ -88,6 +88,7 @@ function Header() {
       </a>
       <nav className="desktop-nav" aria-label="Navegação principal">
         <a href="#servicos">Serviços</a>
+        <a href="#consultorio">Consultório</a>
         <a href="#sobre">Sobre</a>
         <a href="#local">Local</a>
       </nav>
@@ -110,6 +111,7 @@ function Header() {
       {menuOpen && (
         <div ref={menuRef} id="mobile-menu" className="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu de navegação">
           <a href="#servicos" onClick={closeMenu}>Serviços</a>
+          <a href="#consultorio" onClick={closeMenu}>Consultório</a>
           <a href="#sobre" onClick={closeMenu}>Sobre</a>
           <a href="#local" onClick={closeMenu}>Local</a>
           <a href={whatsappUrl} target="_blank" rel="noreferrer" onClick={closeMenu}>Agendar pelo WhatsApp</a>
@@ -119,35 +121,17 @@ function Header() {
   );
 }
 
-function HeroIllustration() {
+function HeroPhoto() {
   return (
-    <figure className="hero-illustration" aria-label="Ilustração representativa">
-      <svg viewBox="0 0 400 320" role="img" aria-label="Adulto e criança sentados juntos lendo um livro">
-        <rect width="400" height="320" fill="#EAF1F2" rx="16" />
-        <circle cx="320" cy="60" r="28" fill="#F0C5AA" opacity="0.4" />
-        <circle cx="60" cy="260" r="42" fill="#245B73" opacity="0.08" />
-        <path d="M80 250 Q120 220 160 245 T260 240" fill="none" stroke="#245B73" strokeWidth="2" opacity="0.2" />
-        {/* Adult */}
-        <circle cx="165" cy="125" r="22" fill="#F0C5AA" />
-        <path d="M143 160 Q140 210 145 245 L185 245 Q190 210 187 160 Z" fill="#245B73" />
-        <path d="M145 245 L140 285" stroke="#245B73" strokeWidth="10" strokeLinecap="round" />
-        <path d="M185 245 L190 285" stroke="#245B73" strokeWidth="10" strokeLinecap="round" />
-        <path d="M143 170 Q125 185 130 210" stroke="#F0C5AA" strokeWidth="9" strokeLinecap="round" fill="none" />
-        <path d="M187 170 Q205 185 200 210" stroke="#F0C5AA" strokeWidth="9" strokeLinecap="round" fill="none" />
-        {/* Child */}
-        <circle cx="245" cy="155" r="17" fill="#F0C5AA" />
-        <path d="M228 180 Q226 215 229 240 L261 240 Q264 215 262 180 Z" fill="#245B73" opacity="0.85" />
-        <path d="M229 240 L226 270" stroke="#245B73" strokeWidth="8" strokeLinecap="round" opacity="0.85" />
-        <path d="M261 240 L264 270" stroke="#245B73" strokeWidth="8" strokeLinecap="round" opacity="0.85" />
-        {/* Book */}
-        <rect x="180" y="190" width="60" height="40" rx="3" fill="#FAFBF8" stroke="#243740" strokeWidth="2" />
-        <path d="M210 190 L210 230" stroke="#243740" strokeWidth="1.5" />
-        <line x1="190" y1="200" x2="205" y2="200" stroke="#243740" strokeWidth="2" opacity="0.4" />
-        <line x1="190" y1="208" x2="205" y2="208" stroke="#243740" strokeWidth="2" opacity="0.4" />
-        <line x1="215" y1="200" x2="230" y2="200" stroke="#243740" strokeWidth="2" opacity="0.4" />
-        <line x1="215" y1="208" x2="230" y2="208" stroke="#243740" strokeWidth="2" opacity="0.4" />
-      </svg>
-      <figcaption>Ilustração representativa</figcaption>
+    <figure className="hero-photo">
+      <img
+        src={`/images/aline-portrait.jpg`}
+        alt="Dra. Aline Campos Reis, pediatra, sorrindo em retrato profissional"
+        width="520"
+        height="640"
+        loading="eager"
+        decoding="async"
+      />
     </figure>
   );
 }
@@ -166,7 +150,7 @@ function Hero() {
           Agendar pelo WhatsApp <ArrowDiagonal />
         </a>
       </div>
-      <HeroIllustration />
+      <HeroPhoto />
     </section>
   );
 }
@@ -222,6 +206,80 @@ function Services() {
   );
 }
 
+const officePhotos = [
+  { src: `/images/consultorio-recepcao.jpg`, alt: 'Recepção do consultório com cadeira suspensa e decoração acolhedora' },
+  { src: `/images/consultorio-mesa.jpg`, alt: 'Mesa de atendimento pediátrico com balança infantil' },
+  { src: `/images/consultorio-brinquedoteca.jpg`, alt: 'Espaço infantil com tapete colorido e brinquedos' },
+  { src: `/images/consultorio-quadros.jpg`, alt: 'Quadros decorativos com frases sobre afeto e brincar' },
+  { src: `/images/consultorio-brinquedos.jpg`, alt: 'Prateleira com brinquedos e ursinho de pelúcia' },
+  { src: `/images/consultorio-estrelas.jpg`, alt: 'Parede decorada com estrelas douradas' },
+];
+
+function Office() {
+  const reduceMotion = useReducedMotion();
+  return (
+    <section className="office section-shell" id="consultorio" aria-label="O consultório">
+      <div className="section-header">
+        <span className="section-eyebrow">Espaço</span>
+        <h2>O consultório.</h2>
+        <p>Ambiente pensado para acolher crianças e famílias, com área de espera, consultório e espaço de brincar.</p>
+      </div>
+      <div className="office-grid">
+        {officePhotos.map((photo, index) => (
+          <motion.figure
+            key={photo.src}
+            className={`office-card office-card-${index}`}
+            initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ delay: index * 0.08, duration: 0.4 }}
+          >
+            <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
+          </motion.figure>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+const patientPhotos = [
+  `/images/pediatria-1.jpg`,
+  `/images/pediatria-2.jpg`,
+  `/images/pediatria-3.jpg`,
+];
+
+function Testimonial() {
+  const reduceMotion = useReducedMotion();
+  return (
+    <section className="testimonial section-shell" aria-label="Depoimento">
+      <motion.div
+        className="testimonial-inner"
+        initial={reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.4 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="testimonial-stars" aria-label="5 estrelas">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <svg key={i} viewBox="0 0 24 24" aria-hidden="true" width="22" height="22">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor" />
+            </svg>
+          ))}
+        </div>
+        <blockquote>
+          “Excelente pediatra. Desde o primeiro contato muito atenciosa, explica tudo com calma e sempre disponível para tirar dúvidas. Recomendo demais.”
+        </blockquote>
+        <cite>Gabriel Viriato</cite>
+        <div className="testimonial-photos" aria-label="Fotos de pacientes">
+          {patientPhotos.map((src, i) => (
+            <img key={src} src={src} alt={`Foto de paciente ${i + 1}`} loading="lazy" decoding="async" />
+          ))}
+        </div>
+      </motion.div>
+    </section>
+  );
+}
+
 function About() {
   return (
     <section className="about section-shell" id="sobre" aria-label="Sobre a médica">
@@ -230,10 +288,13 @@ function About() {
           <span className="section-eyebrow">Sobre</span>
           <h2>Dra. Aline Campos Reis</h2>
           <p>
-            Pediatra com residência em Pediatria pelo Hospital Geral Roberto Santos (HGRS) em Salvador, mestra em Medicina pela UFRJ e docente de Medicina na UNESA.
+            Pediatra formada pela Universidade do Estado do Amazonas, com residência médica em Pediatria pelo Hospital Geral Roberto Santos (HGRS) em Salvador. Possui mestrado em Medicina pela Universidade Federal do Rio de Janeiro (UFRJ) e atua como docente de Medicina na UNESA.
           </p>
           <p>
-            Mais de 12 anos de atuação clínica, incluindo experiência em emergências pediátricas e atendimentos na Amazônia. Atende em português, espanhol e inglês.
+            Ao longo de mais de 12 anos de prática clínica, acumulou experiência em emergências pediátricas, atendimentos na Amazônia e acompanhamento ambulatorial de crianças e adolescentes. Atende em português, espanhol e inglês, recebendo famílias do Rio de Janeiro e de fora do país.
+          </p>
+          <p>
+            Seu trabalho é pautado pela escuta ativa, pela medicina baseada em evidências e por um olhar acolhedor para cada família.
           </p>
           <div className="credential-block">{crm}</div>
         </div>
@@ -320,6 +381,8 @@ export default function App() {
       <main>
         <Hero />
         <Services />
+        <Office />
+        <Testimonial />
         <About />
         <Location />
       </main>
