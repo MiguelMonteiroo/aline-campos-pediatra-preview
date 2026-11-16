@@ -33,13 +33,23 @@ svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke
 /* Header */
 .site-header{position:fixed;inset:0 0 auto 0;height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 clamp(20px,5vw,72px);background:rgba(250,251,248,.94);backdrop-filter:blur(10px);border-bottom:1px solid rgba(36,55,64,.08);z-index:20;transition:transform .25s ease}
 .site-header.is-hidden{transform:translateY(-100%)}
+.site-header:focus-within{transform:translateY(0)}
 .brand{display:inline-flex;align-items:center;gap:8px}
 .brand span{font-family:'Nunito Sans',sans-serif;font-size:20px;font-weight:700;line-height:1;color:var(--text)}
 .brand small{display:block;font:600 10px/1 'Source Sans 3',sans-serif;letter-spacing:.18em;color:var(--action);margin-top:3px}
-.site-header nav{display:flex;align-items:center;gap:clamp(24px,3vw,44px);font-size:15px;color:var(--text-muted)}
-.site-header nav a:hover{color:var(--action)}
+.desktop-nav{display:flex;align-items:center;gap:clamp(24px,3vw,44px);font-size:15px;color:var(--text-muted)}
+.desktop-nav a:hover{color:var(--action)}
+.header-actions{display:flex;align-items:center;gap:10px}
 .header-cta{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--action);color:var(--action);padding:11px 16px;font-size:13px;font-weight:700;border-radius:6px;transition:background .2s,color .2s}
 .header-cta:hover{background:var(--action);color:#fff}
+.menu-toggle{display:none;width:42px;height:42px;align-items:center;justify-content:center;border:1px solid var(--action);background:transparent;border-radius:6px}
+.menu-burger{position:relative;width:18px;height:2px;background:var(--action);border-radius:1px}
+.menu-burger::before,.menu-burger::after{content:'';position:absolute;left:0;width:18px;height:2px;background:var(--action);border-radius:1px}
+.menu-burger::before{top:-5px}.menu-burger::after{top:5px}
+.mobile-menu{position:absolute;inset:78px 16px auto;display:flex;flex-direction:column;gap:4px;background:#fff;border:1px solid rgba(36,55,64,.1);border-radius:12px;padding:12px;box-shadow:0 16px 40px rgba(36,55,64,.12)}
+.mobile-menu a{padding:14px 16px;border-radius:8px;font-size:16px;font-weight:600;color:var(--text)}
+.mobile-menu a:hover{background:var(--surface)}
+.mobile-menu a:last-child{background:var(--action);color:#fff}
 .desktop-only{display:inline}
 
 /* Buttons */
@@ -125,7 +135,8 @@ svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke
 }
 
 @media(max-width:760px){
-  .site-header nav{display:none}
+  .desktop-nav{display:none}
+  .menu-toggle{display:inline-flex}
   .desktop-only{display:none}
   .site-footer{flex-direction:column;align-items:flex-start}
   .site-footer>a{width:100%;justify-content:center}

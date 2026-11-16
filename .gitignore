@@ -28,3 +28,5 @@ dist-ssr
 # generated verification assets
 .impeccable/*.png
 .impeccable/*.log
+
+.vercel

@@ -32,6 +32,7 @@ function ArrowDiagonal() {
 
 function Header() {
   const [hidden, setHidden] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const lastY = useRef(0);
   useEffect(() => {
     const onScroll = () => {
@@ -42,19 +43,40 @@ function Header() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+  const closeMenu = () => setMenuOpen(false);
   return (
     <header className={`site-header ${hidden ? 'is-hidden' : ''}`} id="topo">
-      <a className="brand" href="#topo" aria-label="Dra. Aline Campos Reis, voltar ao topo">
+      <a className="brand" href="#inicio" aria-label="Dra. Aline Campos Reis, voltar ao topo">
         <span>Dra. Aline Campos<small>PEDIATRA</small></span>
       </a>
-      <nav aria-label="Navegação principal">
+      <nav className="desktop-nav" aria-label="Navegação principal">
         <a href="#servicos">Serviços</a>
         <a href="#sobre">Sobre</a>
         <a href="#local">Local</a>
       </nav>
-      <a className="header-cta" href={whatsappUrl} target="_blank" rel="noreferrer">
-        Agendar <span className="desktop-only">pelo WhatsApp</span> <ArrowDiagonal />
-      </a>
+      <div className="header-actions">
+        <a className="header-cta" href={whatsappUrl} target="_blank" rel="noreferrer">
+          Agendar <span className="desktop-only">pelo WhatsApp</span> <ArrowDiagonal />
+        </a>
+        <button
+          type="button"
+          className="menu-toggle"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-menu"
+          aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+          onClick={() => setMenuOpen(open => !open)}
+        >
+          <span className="menu-burger" aria-hidden="true" />
+        </button>
+      </div>
+      {menuOpen && (
+        <div id="mobile-menu" className="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu de navegação">
+          <a href="#servicos" onClick={closeMenu}>Serviços</a>
+          <a href="#sobre" onClick={closeMenu}>Sobre</a>
+          <a href="#local" onClick={closeMenu}>Local</a>
+          <a href={whatsappUrl} target="_blank" rel="noreferrer" onClick={closeMenu}>Agendar pelo WhatsApp</a>
+        </div>
+      )}
     </header>
   );
 }
@@ -94,7 +116,7 @@ function HeroIllustration() {
 
 function Hero() {
   return (
-    <section className="hero" aria-label="Apresentação">
+    <section className="hero" id="inicio" aria-label="Apresentação">
       <div className="hero-copy">
         <p className="hero-eyebrow">Pediatria no Catete, Rio de Janeiro</p>
         <h1>Cuidado pediátrico desde o pré-natal.</h1>
@@ -113,18 +135,6 @@ function Hero() {
 
 function Services() {
   const reduceMotion = useReducedMotion();
-  const lineVariants = {
-    hidden: { pathLength: 0, opacity: 0 },
-    visible: { pathLength: 1, opacity: 1, transition: { duration: 0.8, ease: 'easeInOut' as const } },
-  };
-  const markerVariants = {
-    hidden: { opacity: 0, scale: 0 },
-    visible: (i: number) => ({
-      opacity: 1,
-      scale: 1,
-      transition: { delay: i * 0.25 + 0.3, duration: 0.35 },
-    }),
-  };
   return (
     <section className="services section-shell" id="servicos" aria-label="Serviços">
       <div className="section-header">
@@ -133,19 +143,18 @@ function Services() {
         <p>Acompanhamento contínuo para famílias do Rio de Janeiro, com foco em escuta ativa e acolhimento.</p>
       </div>
       <div className="services-track">
-        <svg className="track-line" viewBox="0 0 4 300" preserveAspectRatio="none" aria-hidden="true">
-          <motion.path
-            d="M2 0 L2 300"
-            stroke="#245B73"
-            strokeWidth="2"
-            fill="none"
-            strokeDasharray="6 6"
-            initial={reduceMotion ? 'visible' : 'hidden'}
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.4 }}
-            variants={lineVariants}
-          />
-        </svg>
+        <motion.svg
+          className="track-line"
+          viewBox="0 0 4 300"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+          initial={reduceMotion ? { opacity: 1 } : { opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.6 }}
+        >
+          <line x1="2" y1="0" x2="2" y2="300" stroke="#245B73" strokeWidth="2" strokeDasharray="6 6" />
+        </motion.svg>
         <div className="services-list">
           {services.map((service, index) => (
             <motion.article
@@ -158,11 +167,10 @@ function Services() {
             >
               <motion.span
                 className="service-marker"
-                custom={index}
-                initial={reduceMotion ? 'visible' : 'hidden'}
-                whileInView="visible"
+                initial={reduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
+                whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true, amount: 0.5 }}
-                variants={markerVariants}
+                transition={{ delay: index * 0.25 + 0.3, duration: 0.35 }}
               >
                 0{index + 1}
               </motion.span>
