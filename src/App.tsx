@@ -34,6 +34,9 @@ function Header() {
   const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const lastY = useRef(0);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
@@ -43,6 +46,40 @@ function Header() {
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const menu = menuRef.current;
+    const button = menuButtonRef.current;
+    if (!menu) return;
+    const focusables = Array.from(menu.querySelectorAll<HTMLElement>('a, button'));
+    focusables[0]?.focus();
+
+    function handleKey(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setMenuOpen(false);
+        return;
+      }
+      if (event.key !== 'Tab' || focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener('keydown', handleKey);
+    return () => {
+      document.removeEventListener('keydown', handleKey);
+      button?.focus();
+    };
+  }, [menuOpen]);
+
   const closeMenu = () => setMenuOpen(false);
   return (
     <header className={`site-header ${hidden ? 'is-hidden' : ''}`} id="topo">
@@ -59,6 +96,7 @@ function Header() {
           Agendar <span className="desktop-only">pelo WhatsApp</span> <ArrowDiagonal />
         </a>
         <button
+          ref={menuButtonRef}
           type="button"
           className="menu-toggle"
           aria-expanded={menuOpen}
@@ -70,7 +108,7 @@ function Header() {
         </button>
       </div>
       {menuOpen && (
-        <div id="mobile-menu" className="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu de navegação">
+        <div ref={menuRef} id="mobile-menu" className="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu de navegação">
           <a href="#servicos" onClick={closeMenu}>Serviços</a>
           <a href="#sobre" onClick={closeMenu}>Sobre</a>
           <a href="#local" onClick={closeMenu}>Local</a>
