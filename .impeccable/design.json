@@ -1,0 +1,27 @@
+{
+  "direction": "Uma linha de acompanhamento",
+  "palette": {
+    "bg": "#FAFBF8",
+    "text": "#243740",
+    "action": "#245B73",
+    "surface": "#EAF1F2",
+    "accent": "#F0C5AA"
+  },
+  "typography": {
+    "heading": "Nunito Sans",
+    "body": "Source Sans 3"
+  },
+  "primaryAction": "WhatsApp booking",
+  "imageStrategy": "inline SVG illustration, labeled representative",
+  "motion": [
+    "header hide/show on scroll",
+    "dashed line fade-in between service cards",
+    "service markers scale-in"
+  ],
+  "antiGeneric": [
+    "no stock happy kids",
+    "no fake testimonials",
+    "no stars/badges",
+    "no hospital gradients"
+  ]
+}
